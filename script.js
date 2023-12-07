@@ -12,65 +12,50 @@ Stampare le informazioni su DOM come card.
 
 const containerEl = document.querySelector('.container');
 
-generateCardMember();
-
-/* 
-MILESTONE 3:
-Aggiungere un evento click sulla card che aggiunge/rimuove una classe per evidenziare un componente del team.
-*/
-
-addClassMember();
+for (let i = 0; i < teamMember.length; i++) {
+    const element = teamMember[i];
+    generateCardMember(element);
+    
+}
 
 /* 
 BONUS 2:
 Inserire un form per l’aggiunta di un elemento alla lista.
 */
 
-document.getElementById('add').addEventListener('click', function () {
+document.getElementById('formmember').addEventListener('submit', function (e) {
+    e.preventDefault();
     const newMember = document.getElementById('newmember').value;
+    addNewMember(newMember);
+})
+
+
+// creo la funzione per generare le card di ogni membro del team
+function generateCardMember(element) { 
+
+    const cardEl = document.createElement('div');
+    cardEl.classList.add('card' , 'col-4' , 'bg-primary' , 'p-3' , 'border-light', 'text-center');
+    cardEl.innerHTML = element;
+    containerEl.appendChild(cardEl);
+    cardEl.addEventListener('click', function(){
+        cardEl.classList.toggle('bg-danger');
+    })
+
+} 
+
+function addNewMember(newMember){
     if (newMember === "") {
         alert('Inserisci un nome valido')
     } else {
         teamMember.push(newMember);
-        containerEl.innerHTML = "";
-        generateCardMember();
-        addClassMember();
+        generateCardMember(newMember);
         document.getElementById('newmember').value = "";
-    }
-
-})
-
-document.getElementById('evidenzia').addEventListener('click', function(){
-    for (let i = 0; i < teamMember.length; i++) {
-        const element = document.getElementById(`card${i}`);
-        console.log(element);
-        element.classList.add('bg-danger');
-    }
-    document.getElementById('deseleziona').classList.remove('d-none');
-})
-
-document.getElementById('deseleziona').addEventListener('click', function(){
-    for (let i = 0; i < teamMember.length; i++) {
-        const element = document.getElementById(`card${i}`);
-        console.log(element);
-        element.classList.remove('bg-danger');
-    }
-    document.getElementById('deseleziona').classList.add('d-none');
-})
-
-// creo la funzione per generare le card di ogni membro del team
-function generateCardMember() {
-
-    for (let i = 0; i < teamMember.length; i++) {
-        const element = teamMember[i];
-        const cardEl = `<div id= "card${i}" class='card bg-primary p-3 my-2 text-center text-light'> ${element} </div>`;
-        containerEl.insertAdjacentHTML('beforeend', cardEl);
     }
 
 }
 
 // creo la funzione che aggiunge la classe quando si clicca sulla card
-function addClassMember() {
+/* function addClassMember() {
     for (let i = 0; i < teamMember.length; i++) {
         const element = document.getElementById(`card${i}`);
         console.log(element);
@@ -82,5 +67,5 @@ function addClassMember() {
             }
 
         })
-    }
-}
+    } 
+}*/
